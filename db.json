@@ -1,0 +1,277 @@
+{
+  "settings": {
+    "storeName": "Vogue & Walk",
+    "whatsappNumber": "5491123456789",
+    "whatsappTemplate": "¡Hola! Me interesa comprar el producto *{name}* (Precio: *{price}*, Talla: *{size}*, Color: *{color}*). ¿Está disponible?",
+    "aiAssistantEnabled": true,
+    "aiAssistantTone": "Amistoso, servicial y profesional"
+  },
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Chaqueta de Cuero Vintage",
+      "description": "Chaqueta clásica de cuero genuino envejecido con detalles de cremallera metálica y forro interior suave. Una prenda atemporal para cualquier ocasión que combina elegancia y resistencia.",
+      "category": "ropa",
+      "price": 129.99,
+      "images": [
+        "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Negro",
+        "Marrón"
+      ],
+      "stock": 8,
+      "featured": true
+    },
+    {
+      "id": "prod-2",
+      "name": "Tenis Urban Comfort",
+      "description": "Zapatos deportivos ultra cómodos con suela de espuma viscoelástica de doble densidad. Ideales para caminatas largas y uso casual diario con máxima amortiguación y soporte.",
+      "category": "zapatos",
+      "price": 79.99,
+      "images": [
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ],
+      "colors": [
+        "Rojo",
+        "Negro",
+        "Blanco"
+      ],
+      "stock": 14,
+      "featured": true
+    },
+    {
+      "id": "prod-3",
+      "name": "Sudadera Oversize Minimalista",
+      "description": "Sudadera con capucha confeccionada en algodón orgánico pesado. Corte holgado moderno con puños acanalados y bolsillo canguro frontal de alta durabilidad.",
+      "category": "ropa",
+      "price": 49.99,
+      "images": [
+        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Gris",
+        "Beige",
+        "Verde Oliva"
+      ],
+      "stock": 20,
+      "featured": false
+    },
+    {
+      "id": "prod-4",
+      "name": "Botas de Cuero Clásicas",
+      "description": "Botas robustas hechas a mano con cuero resistente al agua. Suela dentada antideslizante de larga duración, cordones encerados premium y costuras reforzadas.",
+      "category": "zapatos",
+      "price": 110,
+      "images": [
+        "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ],
+      "colors": [
+        "Marrón Oscuro",
+        "Negro"
+      ],
+      "stock": 6,
+      "featured": true
+    },
+    {
+      "id": "prod-5",
+      "name": "Pantalones Cargo Urbanos",
+      "description": "Pantalones con múltiples bolsillos de carga reforzados, fabricados en lona de algodón duradera y rodillas preformadas para máxima flexibilidad urbana.",
+      "category": "ropa",
+      "price": 64.99,
+      "images": [
+        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36"
+      ],
+      "colors": [
+        "Verde Militar",
+        "Negro",
+        "Kaki"
+      ],
+      "stock": 12,
+      "featured": false
+    },
+    {
+      "id": "prod-6",
+      "name": "Vestido Elegante de Lino",
+      "description": "Vestido midi de verano ligero y transpirable, confeccionado con lino de primera calidad. Tirantes ajustables y espalda elástica para un calce perfecto.",
+      "category": "ropa",
+      "price": 74.99,
+      "images": [
+        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "colors": [
+        "Blanco",
+        "Azul Celeste",
+        "Amarillo Pastel"
+      ],
+      "stock": 10,
+      "featured": true
+    },
+    {
+      "id": "prod-7",
+      "name": "Sandalias Sol de Verano",
+      "description": "Sandalias con correas de cuero suave y plantilla anatómica de corcho natural. Perfectas para mantener el confort y la elegancia en los días más calurosos.",
+      "category": "zapatos",
+      "price": 45,
+      "images": [
+        "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40"
+      ],
+      "colors": [
+        "Miel",
+        "Marrón",
+        "Blanco"
+      ],
+      "stock": 18,
+      "featured": false
+    },
+    {
+      "id": "prod-8",
+      "name": "Camiseta Algodón Orgánico",
+      "description": "Camiseta básica premium de cuello redondo y manga corta. Tejido suave, ecológico y altamente transpirable para combinar de forma ideal en cualquier look.",
+      "category": "ropa",
+      "price": 24.99,
+      "images": [
+        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "Blanco",
+        "Gris",
+        "Azul Marino",
+        "Negro"
+      ],
+      "stock": 25,
+      "featured": false
+    },
+    {
+      "id": "prod-9",
+      "name": "Zapatos Oxford Formales",
+      "description": "Zapatos de vestir clásicos estilo Oxford fabricados con fina piel de becerro pulida a mano y costuras reforzadas. Elegancia indiscutible para eventos formales.",
+      "category": "zapatos",
+      "price": 135,
+      "images": [
+        "https://images.unsplash.com/photo-1486308512493-ae6a1e949c18?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "colors": [
+        "Negro",
+        "Café"
+      ],
+      "stock": 5,
+      "featured": true
+    },
+    {
+      "id": "prod-10",
+      "name": "Zapatillas de Correr Nebula",
+      "description": "Zapatillas ultraligeras de entrenamiento con tecnología de tejido transpirable de malla 3D y suela de amortiguación de rebote dinámico.",
+      "category": "zapatos",
+      "price": 89.99,
+      "images": [
+        "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=600&auto=format&fit=crop&q=80"
+      ],
+      "sizes": [
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ],
+      "colors": [
+        "Azul Eléctrico",
+        "Gris Ceniza"
+      ],
+      "stock": 11,
+      "featured": false
+    }
+  ],
+  "chats": [
+    {
+      "id": "chat-1783902499236",
+      "customerName": "junk",
+      "createdAt": "2026-07-13T00:28:19.236Z",
+      "updatedAt": "2026-07-13T00:28:30.303Z",
+      "messages": [
+        {
+          "id": "msg-welcome",
+          "sender": "owner",
+          "text": "¡Hola junk! Bienvenido a nuestra tienda. ¿En qué podemos ayudarte hoy con nuestra ropa y zapatos?",
+          "timestamp": "2026-07-13T00:28:19.236Z"
+        },
+        {
+          "id": "msg-1783902499243",
+          "sender": "customer",
+          "text": "¡Hola! He iniciado una conversación.",
+          "timestamp": "2026-07-13T00:28:19.243Z"
+        },
+        {
+          "id": "msg-1783902510303",
+          "sender": "customer",
+          "text": "hola",
+          "timestamp": "2026-07-13T00:28:30.303Z"
+        }
+      ],
+      "unread": true
+    }
+  ]
+}
