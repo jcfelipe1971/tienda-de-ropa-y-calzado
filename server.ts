@@ -24,7 +24,7 @@ const DB_PATH = path.resolve(process.cwd(), "db.json");
 
 const INITIAL_DB: DatabaseSchema = {
   settings: {
-    storeName: "Arnielys & Juank • Aura Studio",
+    storeName: "Arnielys & Juank • Nueva Moda",
     whatsappNumber: "5352943409", // Cuban number requested by user
     whatsappTemplate: "¡Hola! Me interesa comprar el producto *{name}* (Precio: *{price}*, Talla: *{size}*, Color: *{color}*). ¿Está disponible?",
     aiAssistantEnabled: false,
@@ -37,7 +37,7 @@ const INITIAL_DB: DatabaseSchema = {
       description: "Chaqueta clásica de cuero genuino envejecido con detalles de cremallera metálica y forro interior suave. Una prenda atemporal para cualquier ocasión que combina elegancia y resistencia.",
       category: "ropa",
       price: 129.99,
-      images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80"],
+      images: ["imagenes/articulo1.png"],
       sizes: ["S", "M", "L", "XL"],
       colors: ["Negro", "Marrón"],
       stock: 8,
@@ -49,7 +49,7 @@ const INITIAL_DB: DatabaseSchema = {
       description: "Zapatos deportivos ultra cómodos con suela de espuma viscoelástica de doble densidad. Ideales para caminatas largas y uso casual diario con máxima amortiguación y soporte.",
       category: "zapatos",
       price: 79.99,
-      images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80"],
+      images: ["imagenes/articulo2.png"],
       sizes: ["38", "39", "40", "41", "42", "43"],
       colors: ["Rojo", "Negro", "Blanco"],
       stock: 14,
@@ -61,7 +61,7 @@ const INITIAL_DB: DatabaseSchema = {
       description: "Sudadera con capucha confeccionada en algodón orgánico pesado. Corte holgado moderno con puños acanalados y bolsillo canguro frontal de alta durabilidad.",
       category: "ropa",
       price: 49.99,
-      images: ["https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=80"],
+      images: ["imagenes/articulo3.png"],
       sizes: ["M", "L", "XL"],
       colors: ["Gris", "Beige", "Verde Oliva"],
       stock: 20,
@@ -73,7 +73,7 @@ const INITIAL_DB: DatabaseSchema = {
       description: "Botas robustas hechas a mano con cuero resistente al agua. Suela dentada antideslizante de larga duración, cordones encerados premium y costuras reforzadas.",
       category: "zapatos",
       price: 110.00,
-      images: ["https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=600&auto=format&fit=crop&q=80"],
+      images: ["imagenes/articulo4.png"],
       sizes: ["39", "40", "41", "42", "43"],
       colors: ["Marrón Oscuro", "Negro"],
       stock: 6,
@@ -85,7 +85,7 @@ const INITIAL_DB: DatabaseSchema = {
       description: "Pantalones con múltiples bolsillos de carga reforzados, fabricados en lona de algodón duradera y rodillas preformadas para máxima flexibilidad urbana.",
       category: "ropa",
       price: 64.99,
-      images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=80"],
+      images: ["imagenes/articulo5.png"],
       sizes: ["28", "30", "32", "34", "36"],
       colors: ["Verde Militar", "Negro", "Kaki"],
       stock: 12,
@@ -165,7 +165,7 @@ async function readDb(): Promise<DatabaseSchema> {
     parsed.settings.whatsappNumber = "5352943409";
     parsed.settings.aiAssistantEnabled = false;
     if (!parsed.settings.storeName || parsed.settings.storeName === "Vogue & Walk") {
-      parsed.settings.storeName = "Arnielys & Juank • Aura Studio";
+      parsed.settings.storeName = "Arnielys & Juank • Nueva Moda";
     }
     
     return parsed;
@@ -416,7 +416,7 @@ async function main() {
     fetch: app.fetch,
     port: PORT
   }, (info) => {
-    console.log(`Hono backend unified server running on http://localhost:${info.port}`);
+    console.log(`Hono backend unified server running on port ${info.port}`);
   });
 }
 

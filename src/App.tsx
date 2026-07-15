@@ -8,8 +8,20 @@ import { Product, StoreSettings, ChatSession, DatabaseSchema } from "./types";
 import { ShoppingBag, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
 
 const getApiUrl = (path: string) => {
-  if (typeof window !== "undefined" && window.location.port === "3001") {
-    return `http://localhost:3000${path}`;
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    // Si no estamos en desarrollo local o en la preview de AI Studio,
+    // significa que estamos en el hosting de producción (ej. jksoft.neti.cu).
+    // Usamos la ruta directa a api.php para evitar depender de mod_rewrite de Apache.
+    if (hostname !== "localhost" && hostname !== "127.0.0.1" && !hostname.endsWith("run.app")) {
+      const pathname = window.location.pathname;
+      const baseDir = pathname.substring(0, pathname.lastIndexOf('/') + 1) || '/';
+      const cleanBaseDir = baseDir.endsWith('/') ? baseDir : baseDir + '/';
+      return `${cleanBaseDir}api.php${path}`;
+    }
+    if (window.location.port === "3001") {
+      return `http://localhost:3000${path}`;
+    }
   }
   return path;
 };
@@ -27,19 +39,45 @@ export default function App() {
   // Product Details Modal State
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  // Fetch full DB state from Hono server
+  // Fetch full DB state from Hono/PHP server
   const fetchDb = async () => {
     try {
       const response = await fetch(getApiUrl("/api/db"));
+      
       if (!response.ok) {
-        throw new Error("No se pudo conectar al servidor.");
+        let errorMsg = `Error del servidor (${response.status} ${response.statusText})`;
+        try {
+          const errData = await response.json();
+          if (errData && errData.error) {
+            errorMsg = errData.error;
+            if (errData.suggestion) {
+              errorMsg += `. ${errData.suggestion}`;
+            }
+          }
+        } catch (_) {
+          try {
+            const rawText = await response.text();
+            if (rawText && rawText.trim().length > 0) {
+              errorMsg += `: ${rawText.slice(0, 300)}`;
+            }
+          } catch (_) {}
+        }
+        throw new Error(errorMsg);
       }
-      const data = await response.json();
+
+      const rawText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(rawText);
+      } catch (jsonErr) {
+        throw new Error(`Respuesta no válida del servidor. El servidor PHP podría estar mostrando advertencias o errores: ${rawText.slice(0, 300)}`);
+      }
+
       setDb(data);
       setError(null);
     } catch (err: any) {
       console.error("Error fetching db:", err);
-      setError("No se pudo cargar la información de la tienda. Por favor verifica tu conexión local.");
+      setError(err.message || "No se pudo cargar la información de la tienda. Por favor verifica tu conexión local.");
     } finally {
       setLoading(false);
     }
@@ -253,7 +291,7 @@ export default function App() {
                     Viste con <span className="text-neutral-300 underline decoration-neutral-500 underline-offset-8">Estilo</span> y Confort
                   </h2>
                   <p className="text-sm sm:text-base text-neutral-400 leading-relaxed max-w-md">
-                    Descubre nuestra curación de ropa de alta gama y calzado ergonómico. Elige tus favoritos, personaliza tus tallas y pide directo por WhatsApp en segundos.
+                    Descubre nuestra nueva colección de ropa de alta gama y calzado ergonómico. Elige tus favoritos, personaliza tus tallas y pide directo por WhatsApp en segundos.
                   </p>
                   <div className="flex items-center gap-3">
                     <button
