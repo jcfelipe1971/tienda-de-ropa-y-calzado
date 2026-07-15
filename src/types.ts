@@ -17,6 +17,7 @@ export interface StoreSettings {
   whatsappTemplate: string;
   aiAssistantEnabled: boolean;
   aiAssistantTone: string;
+  ownerPassword?: string;
 }
 
 export interface ChatMessage {

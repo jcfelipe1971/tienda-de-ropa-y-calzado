@@ -24,11 +24,12 @@ const DB_PATH = path.resolve(process.cwd(), "db.json");
 
 const INITIAL_DB: DatabaseSchema = {
   settings: {
-    storeName: "Arnielys & Juank • Nueva Moda",
+    storeName: "Arnielys & Juank • Aura Studio",
     whatsappNumber: "5352943409", // Cuban number requested by user
     whatsappTemplate: "¡Hola! Me interesa comprar el producto *{name}* (Precio: *{price}*, Talla: *{size}*, Color: *{color}*). ¿Está disponible?",
     aiAssistantEnabled: false,
-    aiAssistantTone: "Amistoso, servicial y profesional"
+    aiAssistantTone: "Amistoso, servicial y profesional",
+    ownerPassword: "1234"
   },
   products: [
     {
@@ -165,7 +166,10 @@ async function readDb(): Promise<DatabaseSchema> {
     parsed.settings.whatsappNumber = "5352943409";
     parsed.settings.aiAssistantEnabled = false;
     if (!parsed.settings.storeName || parsed.settings.storeName === "Vogue & Walk") {
-      parsed.settings.storeName = "Arnielys & Juank • Nueva Moda";
+      parsed.settings.storeName = "Arnielys & Juank • Aura Studio";
+    }
+    if (!parsed.settings.ownerPassword) {
+      parsed.settings.ownerPassword = "1234";
     }
     
     return parsed;
@@ -189,7 +193,26 @@ app.get("/api/health", (c) => c.json({ status: "ok" }));
 // Get full database
 app.get("/api/db", async (c) => {
   const db = await readDb();
-  return c.json(db);
+  const { ownerPassword, ...safeSettings } = db.settings as any;
+  return c.json({
+    ...db,
+    settings: safeSettings
+  });
+});
+
+// Verify owner password
+app.post("/api/verify-password", async (c) => {
+  try {
+    const { password } = await c.req.json<{ password?: string }>();
+    const db = await readDb();
+    const actualPassword = db.settings.ownerPassword || "1234";
+    if (password === actualPassword) {
+      return c.json({ success: true });
+    }
+    return c.json({ success: false, error: "Contraseña incorrecta" }, 401);
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message }, 400);
+  }
 });
 
 // Update settings

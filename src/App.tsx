@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StoreHeader } from "./components/StoreHeader";
 import { ProductCard } from "./components/ProductCard";
 import { ProductDetailModal } from "./components/ProductDetailModal";
 import { ChatWidget } from "./components/ChatWidget";
 import { OwnerDashboard } from "./components/OwnerDashboard";
 import { Product, StoreSettings, ChatSession, DatabaseSchema } from "./types";
-import { ShoppingBag, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
+import { ShoppingBag, Sparkles, CheckCircle2, ArrowRight, Lock, X } from "lucide-react";
 
 const getApiUrl = (path: string) => {
   if (typeof window !== "undefined") {
@@ -38,6 +38,47 @@ export default function App() {
 
   // Product Details Modal State
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  // Password Verification State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [verifying, setVerifying] = useState<boolean>(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  const handleTabChange = (tab: "store" | "admin") => {
+    if (tab === "admin" && !isAuthenticated) {
+      setShowPasswordModal(true);
+    } else {
+      setCurrentTab(tab);
+    }
+  };
+
+  const handleVerifyPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVerifying(true);
+    setAuthError(null);
+    try {
+      const response = await fetch(getApiUrl("/api/verify-password"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passwordInput }),
+      });
+      if (response.ok) {
+        setIsAuthenticated(true);
+        setCurrentTab("admin");
+        setShowPasswordModal(false);
+        setPasswordInput("");
+      } else {
+        const data = await response.json().catch(() => ({}));
+        setAuthError(data.error || "Contraseña incorrecta. Inténtelo de nuevo.");
+      }
+    } catch (err) {
+      setAuthError("No se pudo conectar con el servidor.");
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   // Fetch full DB state from Hono/PHP server
   const fetchDb = async () => {
@@ -265,7 +306,7 @@ export default function App() {
       <StoreHeader
         settings={settings}
         currentTab={currentTab}
-        onTabChange={setCurrentTab}
+        onTabChange={handleTabChange}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
         searchQuery={searchQuery}
@@ -291,7 +332,7 @@ export default function App() {
                     Viste con <span className="text-neutral-300 underline decoration-neutral-500 underline-offset-8">Estilo</span> y Confort
                   </h2>
                   <p className="text-sm sm:text-base text-neutral-400 leading-relaxed max-w-md">
-                    Descubre nuestra nueva colección de ropa de alta gama y calzado ergonómico. Elige tus favoritos, personaliza tus tallas y pide directo por WhatsApp en segundos.
+                    Descubre nuestra curación de ropa de alta gama y calzado ergonómico. Elige tus favoritos, personaliza tus tallas y pide directo por WhatsApp en segundos.
                   </p>
                   <div className="flex items-center gap-3">
                     <button
@@ -410,6 +451,78 @@ export default function App() {
       <ChatWidget
         settings={settings}
       />
+
+      {/* Password Prompt Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="relative w-full max-w-sm bg-white rounded-2xl border border-neutral-100 shadow-2xl p-6 overflow-hidden animate-in zoom-in-95 duration-200">
+            <button
+              onClick={() => {
+                setShowPasswordModal(false);
+                setPasswordInput("");
+                setAuthError(null);
+              }}
+              className="absolute top-4 right-4 p-1 rounded-lg text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700 transition-colors cursor-pointer animate-none"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="p-3 bg-neutral-900 text-white rounded-2xl">
+                <Lock className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="text-lg font-black text-neutral-950 font-sans tracking-tight">
+                  Acceso Restringido
+                </h4>
+                <p className="text-xs text-neutral-400 mt-1 max-w-xs leading-relaxed">
+                  Por favor, ingrese la contraseña de administración para acceder al Panel del Dueño.
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={handleVerifyPassword} className="mt-6 space-y-4">
+              <div>
+                <input
+                  type="password"
+                  required
+                  autoFocus
+                  placeholder="Contraseña del Administrador"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition-all text-center"
+                />
+                {authError && (
+                  <p className="text-xs text-red-500 font-medium text-center mt-2 animate-none">
+                    {authError}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowPasswordModal(false);
+                    setPasswordInput("");
+                    setAuthError(null);
+                  }}
+                  className="flex-1 py-2.5 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 border border-neutral-200 rounded-xl text-xs font-semibold transition-all cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={verifying}
+                  className="flex-1 py-2.5 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-neutral-950/10"
+                >
+                  {verifying ? "Verificando..." : "Ingresar"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Global Footer */}
       <footer className="bg-white border-t border-neutral-100 py-8 text-center text-neutral-500 text-xs font-mono mt-auto">

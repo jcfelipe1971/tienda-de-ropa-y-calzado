@@ -32,6 +32,7 @@ export const OwnerDashboard: React.FC<OwnerDashboardProps> = ({
   // Settings Form State
   const [settingsForm, setSettingsForm] = useState<StoreSettings>({ ...settings });
   const [isSavingSettings, setIsSavingSettings] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
 
   React.useEffect(() => {
     setSettingsForm({ ...settings });
@@ -53,8 +54,13 @@ export const OwnerDashboard: React.FC<OwnerDashboardProps> = ({
     e.preventDefault();
     setIsSavingSettings(true);
     try {
-      await onUpdateSettings(settingsForm);
+      const settingsToSave = { ...settingsForm };
+      if (newPassword.trim() !== "") {
+        settingsToSave.ownerPassword = newPassword.trim();
+      }
+      await onUpdateSettings(settingsToSave);
       alert("Configuraciones guardadas correctamente.");
+      setNewPassword("");
     } catch (err) {
       alert("Error al guardar configuraciones.");
     } finally {
@@ -807,6 +813,23 @@ export const OwnerDashboard: React.FC<OwnerDashboardProps> = ({
                       onChange={(e) => setSettingsForm(prev => ({ ...prev, storeName: e.target.value }))}
                       className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition-all"
                     />
+                  </div>
+
+                  {/* Password Change */}
+                  <div>
+                    <label className="block text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2">
+                      Cambiar Contraseña del Panel
+                    </label>
+                    <input
+                      type="password"
+                      placeholder="Nueva contraseña (deja en blanco para mantener la actual)"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full px-4 py-2.5 border border-neutral-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition-all"
+                    />
+                    <span className="block text-[11px] text-neutral-400 mt-1.5 leading-relaxed">
+                      Si cambias la contraseña, deberás usar la nueva contraseña la próxima vez que intentes ingresar al Panel del Dueño.
+                    </span>
                   </div>
 
                   {/* WhatsApp target number */}
